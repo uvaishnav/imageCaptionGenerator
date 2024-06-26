@@ -19,7 +19,8 @@ class ConfugarationManager:
             dataset_path = config.dataset_path,
             train_data_url = config.train_data_url,
             validation_data_url = config.validation_data_url,
-            data_anotations_url = config.data_anotations_url
+            data_anotations_url = config.data_anotations_url,
+            data_test_anotations_url = config.data_test_anotations_url
         )
 
         return data_ingestion_config

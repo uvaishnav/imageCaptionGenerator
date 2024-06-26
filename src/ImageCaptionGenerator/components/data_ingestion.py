@@ -60,3 +60,7 @@ class DataIngestion:
         # download annotations
         annot_path = os.path.join(root_dir,'annotations')
         self.download_and_extract(self.config.data_anotations_url, annot_path)
+
+        #download annotations of test images
+        annot_test_path = os.path.join(root_dir,'annot_test')
+        self.download_and_extract(self.config.data_test_anotations_url, annot_test_path)

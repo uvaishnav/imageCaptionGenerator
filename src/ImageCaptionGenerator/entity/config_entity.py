@@ -7,3 +7,4 @@ class DataIngestionConfig:
     train_data_url : str
     validation_data_url : str
     data_anotations_url : str
+    data_test_anotations_url : str
