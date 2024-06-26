@@ -1,0 +1,25 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/ImageCaptionGenerator/pipelines/stage_01_data_ingestion.py
+    deps:
+    - path: src/ImageCaptionGenerator/pipelines/stage_01_data_ingestion.py
+      hash: md5
+      md5: d999a4684934e7b025b7f81da2f68911
+      size: 839
+    outs:
+    - path: dataset/annotations
+      hash: md5
+      md5: 5adbdef5016e647826086f178f2bda03.dir
+      size: 834416290
+      nfiles: 6
+    - path: dataset/train
+      hash: md5
+      md5: a2590f3773ef0b6de1cdcced2f1b97ce.dir
+      size: 6639558748
+      nfiles: 40670
+    - path: dataset/val
+      hash: md5
+      md5: c30e73008192b8c6c17f6c9119ec0e50.dir
+      size: 814705164
+      nfiles: 5000

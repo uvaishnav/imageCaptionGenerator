@@ -1,0 +1,7 @@
+dataset_root : dataset
+
+data_ingestion : 
+  dataset_path : dataset
+  train_data_url : http://images.cocodataset.org/zips/test2017.zip
+  validation_data_url : http://images.cocodataset.org/zips/val2017.zip
+  data_anotations_url : http://images.cocodataset.org/annotations/annotations_trainval2017.zip
