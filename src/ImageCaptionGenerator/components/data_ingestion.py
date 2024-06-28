@@ -7,60 +7,78 @@ from ImageCaptionGenerator import logger
 from ImageCaptionGenerator.entity.config_entity import DataIngestionConfig
 
 class DataIngestion:
-    def __init__(self, config:DataIngestionConfig) -> None:
+    def __init__(self, config: DataIngestionConfig) -> None:
         self.config = config
     
-    def download_and_extract(self,url, dest_path):
+    def download_file(self, url, dest_path):
+        """
+        Function to download a file from a URL
+
+        Args:
+        url: URL to resource to be downloaded
+        dest_path: Path to save the downloaded file
+        """
+        if not os.path.exists(dest_path):
+            os.makedirs(dest_path)
+        file_path = os.path.join(dest_path, 'temp.zip')
+
+        # Streaming download with progress bar
+        response = requests.get(url, stream=True)
+        total_size = int(response.headers.get('content-length', 0))
+        block_size = 1024  # 1 Kilobyte
+
+        logger.info(f"Downloading file to {file_path} of size {total_size / (1024 * 1024):.2f} MB")
+
+        with open(file_path, 'wb') as f:
+            for data in tqdm(response.iter_content(block_size), total=total_size//block_size, unit='KB', unit_scale=True):
+                f.write(data)
+
+        logger.info(f"Download of file at {file_path} completed")
+        return file_path
+
+    def extract_file(self, zip_path, dest_path):
+        """
+        Function to extract a zip file
+
+        Args:
+        zip_path: Path to the zip file to be extracted
+        dest_path: Path to extract the zip file contents
+        """
+        try:
+            with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+                for member in zip_ref.namelist():
+                    try:
+                        zip_ref.extract(member, dest_path)
+                    except zipfile.BadZipFile as e:
+                        logger.error(f"Corrupted file {member} in zip archive {zip_path}: {e}")
+            os.remove(zip_path)
+            logger.info(f"Unzipped to {dest_path}")
+        except zipfile.BadZipFile as e:
+            logger.error(f"Bad zip file {zip_path}: {e}")
+            raise
+
+    def download_and_extract(self, url, dest_path):
         """
         Function to download data and extract zip files
 
-        Args : 
-        url : url to resource to be downloaded
-        dest_path : path to save file
-
+        Args:
+        url: URL to resource to be downloaded
+        dest_path: Path to save the file and extract its contents
         """
-        try :
-            if not os.path.exists(dest_path):
-                os.makedirs(dest_path)
-            zip_path = os.path.join(dest_path, 'temp.zip')
-
-            # Streaming download with progress bar
-            response = requests.get(url, stream=True)
-            total_size = int(response.headers.get('content-length', 0))
-            block_size = 1024  # 1 Kilobyte
-
-            logger.info(f"Downloading file to {dest_path} of size {total_size / (1024 * 1024):.2f} MB")
-
-            with open(zip_path, 'wb') as f:
-                for data in tqdm(response.iter_content(block_size), total=total_size//block_size, unit='KB', unit_scale=True):
-                    f.write(data)
-
-            logger.info(f"Download zip file at {dest_path} Completed")
-
-            with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-                zip_ref.extractall(dest_path)
-            os.remove(zip_path)
-
-            logger.info(f"Unziped to {dest_path}")
-
-        except Exception as e:
-            raise(e)
+        zip_path = self.download_file(url, dest_path)
+        self.extract_file(zip_path, dest_path)
 
     def get_data(self):
         root_dir = self.config.dataset_path
 
-        # download train images
-        train_path = os.path.join(root_dir,'train')
+        # Download and extract train images
+        train_path = os.path.join(root_dir, 'train')
         self.download_and_extract(self.config.train_data_url, train_path)
 
-        # download validation images
-        val_path = os.path.join(root_dir,'val')
+        # Download and extract validation images
+        val_path = os.path.join(root_dir, 'val')
         self.download_and_extract(self.config.validation_data_url, val_path)
 
-        # download annotations
-        annot_path = os.path.join(root_dir,'annotations')
+        # Download and extract annotations
+        annot_path = os.path.join(root_dir, 'annotations')
         self.download_and_extract(self.config.data_anotations_url, annot_path)
-
-        #download annotations of test images
-        annot_test_path = os.path.join(root_dir,'annot_test')
-        self.download_and_extract(self.config.data_test_anotations_url, annot_test_path)
