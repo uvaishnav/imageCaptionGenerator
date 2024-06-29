@@ -1,10 +1,19 @@
 stages:
-  data_ingestion : 
-    cmd : python src/ImageCaptionGenerator/pipelines/stage_01_data_ingestion.py
-    deps :
-      - src/ImageCaptionGenerator/pipelines/stage_01_data_ingestion.py
-      - src/ImageCaptionGenerator/components/data_ingestion.py
-    outs :
-      - dataset/train
-      - dataset/val
-      - dataset/annotations
+  # data_ingestion:
+  #   cmd: python src/ImageCaptionGenerator/pipelines/stage_01_data_ingestion.py
+  #   deps:
+  #   - src/ImageCaptionGenerator/components/data_ingestion.py
+  #   - src/ImageCaptionGenerator/pipelines/stage_01_data_ingestion.py
+  #   outs:
+  #   - dataset/annotations
+  #   - dataset/train
+  #   - dataset/val
+  feature_extraction:
+    cmd: python src/ImageCaptionGenerator/pipelines/stage_02_feature_extraction.py
+    deps:
+    - src/ImageCaptionGenerator/pipelines/stage_02_feature_extraction.py
+    - src/ImageCaptionGenerator/components/feature_extractor.py
+    outs:
+    - artifacts/train_features.pkl
+    - artifacts/val_features.pkl
+

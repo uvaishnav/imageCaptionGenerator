@@ -1,7 +1,8 @@
 from ImageCaptionGenerator.constants import *
 from ImageCaptionGenerator.utils.common import read_yaml
 from ImageCaptionGenerator.entity.config_entity import (
-    DataIngestionConfig
+    DataIngestionConfig,
+    FeatureExtractionConfig
 )
 
 class ConfugarationManager:
@@ -23,5 +24,15 @@ class ConfugarationManager:
         )
 
         return data_ingestion_config
+    
+    def get_feature_extractor_config(self)-> FeatureExtractionConfig:
+        config = self.config.feature_extraction
+        feature_extractor_config = FeatureExtractionConfig(
+            train_data_path = config.train_data_path,
+            val_data_path = config.val_data_path,
+            features_path = config.features_path
+        )
+
+        return feature_extractor_config
 
         

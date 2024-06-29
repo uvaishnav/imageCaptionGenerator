@@ -7,3 +7,10 @@ class DataIngestionConfig:
     train_data_url : str
     validation_data_url : str
     data_anotations_url : str
+
+@dataclass(frozen=True)
+class FeatureExtractionConfig:
+    train_data_path : Path
+    val_data_path : Path
+    features_path : Path
+    

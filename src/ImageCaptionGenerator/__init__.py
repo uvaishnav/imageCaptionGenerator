@@ -19,4 +19,4 @@ logging.basicConfig(
     ]
 )
 
-logger = logging.getLogger("skinDiagnosisLogger")
+logger = logging.getLogger("ImageCaptionLogger")

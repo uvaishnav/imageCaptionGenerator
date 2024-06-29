@@ -3,6 +3,11 @@ stages:
   data_ingestion:
     cmd: python src/ImageCaptionGenerator/pipelines/stage_01_data_ingestion.py
     deps:
+    - path: src/ImageCaptionGenerator/components/data_ingestion.py
+      hash: md5
+      md5: 98ca4b09411f6e7aa8b25439be61dd48
+      size: 3007
+      isexec: true
     - path: src/ImageCaptionGenerator/pipelines/stage_01_data_ingestion.py
       hash: md5
       md5: d999a4684934e7b025b7f81da2f68911
@@ -15,11 +20,33 @@ stages:
       nfiles: 6
     - path: dataset/train
       hash: md5
-      md5: a2590f3773ef0b6de1cdcced2f1b97ce.dir
-      size: 6639558748
-      nfiles: 40670
+      md5: e3cff14203728ccbe11263f724c262b9.dir
+      size: 19313337085
+      nfiles: 118280
     - path: dataset/val
       hash: md5
       md5: c30e73008192b8c6c17f6c9119ec0e50.dir
       size: 814705164
       nfiles: 5000
+  feature_extraction:
+    cmd: python src/ImageCaptionGenerator/pipelines/stage_02_feature_extraction.py
+    deps:
+    - path: src/ImageCaptionGenerator/components/feature_extractor.py
+      hash: md5
+      md5: c2c314ab4278e81648be82d57e709f64
+      size: 2876
+    - path: src/ImageCaptionGenerator/pipelines/stage_02_feature_extraction.py
+      hash: md5
+      md5: 6eda3b30b15eaaa45bc9b943c93ecbe1
+      size: 890
+    outs:
+    - path: artifacts/train_features.pkl
+      hash: md5
+      md5: 0afd4705b47b56b284a0cfd61d1cdf04
+      size: 978404082
+      isexec: true
+    - path: artifacts/val_features.pkl
+      hash: md5
+      md5: 327a51d29c04f19d60aad46c67c0750b
+      size: 41360178
+      isexec: true
