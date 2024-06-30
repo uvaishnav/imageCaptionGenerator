@@ -11,3 +11,10 @@ feature_extraction :
   train_data_path : dataset/train/train2017
   val_data_path : dataset/val/val2017
   features_path : artifacts
+
+prepare_captions :
+  train_annotations_path : dataset/annotations/annotations/captions_train2017.json
+  param_path : params.yaml
+  dest_path : artifacts
+
+  

@@ -1,1 +1,5 @@
-key : value
+batch_size: 64
+epochs: 20
+max_length: 50
+num_words: 5000
+vocab_size: 27550

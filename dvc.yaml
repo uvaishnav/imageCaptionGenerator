@@ -17,3 +17,12 @@ stages:
     - artifacts/train_features.pkl
     - artifacts/val_features.pkl
 
+  caption_preparation:
+    cmd : python src/ImageCaptionGenerator/pipelines/stage_03_caption_preparation.py
+    deps :
+    - src/ImageCaptionGenerator/pipelines/stage_03_caption_preparation.py
+    - src/ImageCaptionGenerator/components/prepare_caption.py
+    outs:
+    - artifacts/tokenizer.pkl
+    - artifacts/train_padded_sequences.pkl
+

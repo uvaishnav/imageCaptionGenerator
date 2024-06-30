@@ -2,7 +2,8 @@ from ImageCaptionGenerator.constants import *
 from ImageCaptionGenerator.utils.common import read_yaml
 from ImageCaptionGenerator.entity.config_entity import (
     DataIngestionConfig,
-    FeatureExtractionConfig
+    FeatureExtractionConfig,
+    PrepareCaptionConfig
 )
 
 class ConfugarationManager:
@@ -34,5 +35,15 @@ class ConfugarationManager:
         )
 
         return feature_extractor_config
+    
+    def get_prepare_captions_config(self)->PrepareCaptionConfig:
+        config = self.config.prepare_captions
+        prepare_caption_config = PrepareCaptionConfig(
+            train_annotations_path = config.train_annotations_path,
+            param_path = config.param_path,
+            dest_path = config.dest_path, 
+            num_words = self.params.num_words
+        )
 
+        return prepare_caption_config
         

@@ -50,3 +50,25 @@ stages:
       md5: 327a51d29c04f19d60aad46c67c0750b
       size: 41360178
       isexec: true
+  caption_preparation:
+    cmd: python src/ImageCaptionGenerator/pipelines/stage_03_caption_preparation.py
+    deps:
+    - path: src/ImageCaptionGenerator/components/prepare_caption.py
+      hash: md5
+      md5: 71ef641024f2c946802269be15874dbe
+      size: 3727
+    - path: src/ImageCaptionGenerator/pipelines/stage_03_caption_preparation.py
+      hash: md5
+      md5: cb319ef80ec1f15ccb30b8baa2a9532a
+      size: 899
+    outs:
+    - path: artifacts/tokenizer.pkl
+      hash: md5
+      md5: a834a0e3c825ed004cb2af9a7d287ef7
+      size: 1103017
+      isexec: true
+    - path: artifacts/train_padded_sequences.pkl
+      hash: md5
+      md5: d67502022935c6914b0edb951e65ba76
+      size: 118350841
+      isexec: true
